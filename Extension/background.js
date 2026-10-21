@@ -445,7 +445,7 @@ ${questionBody || "[Description not available]"}
 
 ${solutionBlock}
 ---
-*Automated solution upload via [LeetCode Solution Uploader](https://github.com/Ojaswin30/chromeExtension_QuestionAutoUploader)*
+*Automated solution upload via [LeetCode Solution Uploader](https://github.com/Ojaswin30/chromeExtension_LeetcodeQuestionAutoUploader)*
 `;
   }
 

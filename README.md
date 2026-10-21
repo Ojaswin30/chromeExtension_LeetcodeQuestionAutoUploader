@@ -135,7 +135,7 @@ class Solution:
 2. **Approach & Quality**: Idiomatic Python using `enumerate()`. Clean and concise.
 
 ---
-*Automated solution upload via [LeetCode Solution Uploader](https://github.com/Ojaswin30/chromeExtension_QuestionAutoUploader)*
+*Automated solution upload via [LeetCode Solution Uploader](https://github.com/Ojaswin30/chromeExtension_LeetcodeQuestionAutoUploader)*
 ````
 
 ---
@@ -144,7 +144,7 @@ class Solution:
 
 ### 1. Clone or Download the Repository
 ```bash
-git clone https://github.com/Ojaswin30/chromeExtension_QuestionAutoUploader.git
+git clone https://github.com/Ojaswin30/chromeExtension_LeetcodeQuestionAutoUploader.git
 ```
 
 ### 2. Load the Extension in Google Chrome
@@ -210,7 +210,7 @@ Open the extension settings by clicking the **Settings Gear (⚙️)** in the po
 ## 🏗️ Architecture & File Structure
 
 ```
-chromeExtension_QuestionAutoUploader/
+chromeExtension_LeetcodeQuestionAutoUploader/
 ├── Extension/
 │   ├── manifest.json       # Manifest V3 configuration with cookies & host permissions
 │   ├── background.js       # Service worker: Git Database API, UTF-8 base64, Groq/OpenAI/Ollama review
