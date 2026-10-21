@@ -24,3 +24,6 @@ Thumbs.db
 *.key
 *.pem
 secrets.json
+
+# Salesforce / Tooling
+.sfdx/

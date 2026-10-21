@@ -1,18 +1,29 @@
-// Configuration file for LeetCode Solution Uploader Extension
-// IMPORTANT: Copy this file to config.js and add your actual API keys
-// DO NOT commit config.js to version control!
+// Configuration reference for LeetCode Solution Uploader Extension
+// Note: Settings can be configured directly in the Extension Settings UI.
 
 export const CONFIG = {
-  // Get your OpenAI API key from https://platform.openai.com/account/api-keys
-  OPENAI_API_KEY: "YOUR_OPENAI_API_KEY_HERE",
-  
-  // GitHub Personal Access Token (with repo access)
-  // Get it from https://github.com/settings/tokens
+  // GitHub Personal Access Token (requires 'repo' scope)
+  // Create at https://github.com/settings/tokens
   GITHUB_TOKEN: "YOUR_GITHUB_TOKEN_HERE",
-  
-  // Your GitHub repository details
+
+  // Target GitHub repository
   GITHUB_REPO: "Ojaswin30/Leetcode",
-  
-  // Model to use for code reviews
-  MODEL: "gpt-4o-mini" // or "gpt-4o" for better quality but higher cost
+
+  // Target branch (leave empty for default)
+  GITHUB_BRANCH: "main",
+
+  // AI Provider: "groq" | "openai" | "ollama" | "none"
+  AI_PROVIDER: "groq",
+
+  // Groq API Key (get from https://console.groq.com/keys)
+  GROQ_API_KEY: "YOUR_GROQ_API_KEY_HERE",
+  GROQ_MODEL: "openai/gpt-oss-120b",
+
+  // OpenAI API Key (optional)
+  OPENAI_API_KEY: "YOUR_OPENAI_API_KEY_HERE",
+  OPENAI_MODEL: "gpt-4o-mini",
+
+  // Ollama local endpoint (optional)
+  OLLAMA_URL: "http://localhost:11434",
+  OLLAMA_MODEL: "mistral"
 };

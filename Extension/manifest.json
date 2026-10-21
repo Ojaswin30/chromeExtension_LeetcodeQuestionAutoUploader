@@ -1,13 +1,22 @@
 {
     "manifest_version": 3,
     "name": "LeetCode Solution Uploader",
-    "version": "1.0",
-    "description": "Auto-upload LeetCode solutions with ChatGPT code reviews",
-    "permissions": ["activeTab", "scripting", "storage"],
-    "host_permissions": ["https://leetcode.com/*", "https://api.github.com/*", "http://localhost:11434/*"],
-    "externally_connectable": {
-        "matches": ["http://localhost:*/*"]
-    },
+    "version": "2.0",
+    "description": "Auto-upload LeetCode solutions to GitHub with AI code reviews via Groq, OpenAI, or Ollama",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage",
+        "cookies"
+    ],
+    "host_permissions": [
+        "https://leetcode.com/*",
+        "https://*.leetcode.com/*",
+        "https://api.github.com/*",
+        "https://api.groq.com/*",
+        "https://api.openai.com/*",
+        "http://localhost:11434/*"
+    ],
     "background": {
         "service_worker": "background.js"
     },

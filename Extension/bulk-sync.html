@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bulk Sync Solved Questions - LeetCode Solution Uploader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            padding: 30px;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .header-title p {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .pill-green {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+        .pill-yellow {
+            background: #fefce8;
+            color: #ca8a04;
+            border: 1px solid #fef08a;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 20px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 13px;
+            background: white;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #334155;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .checkbox-label input {
+            accent-color: #4f46e5;
+            width: 16px;
+            height: 16px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        button.btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        button.btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+        button.btn-primary:hover {
+            background: #4338ca;
+        }
+        button.btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+        button.btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        button.btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        /* Table Styles */
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-top: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        thead {
+            background: #f8fafc;
+            position: sticky;
+            top: 0;
+            border-bottom: 1.5px solid #e2e8f0;
+        }
+        th, td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        th {
+            color: #475569;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f8fafc;
+        }
+        .badge {
+            display: inline-flex;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-easy { background: #dcfce7; color: #15803d; }
+        .badge-medium { background: #fef9c3; color: #a16207; }
+        .badge-hard { background: #fee2e2; color: #b91c1c; }
+        .badge-lang { background: #e0e7ff; color: #3730a3; margin-right: 4px; }
+        .badge-repo { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-size: 11px; }
+        .badge-new { background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; font-size: 11px; }
+        /* Progress Box */
+        .progress-box {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: none;
+        }
+        .progress-bar-bg {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #4f46e5;
+            transition: width 0.3s ease;
+        }
+        .log-box {
+            margin-top: 14px;
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            height: 160px;
+            overflow-y: auto;
+            line-height: 1.5;
+            display: none;
+        }
+        .log-entry { margin-bottom: 4px; }
+        .log-success { color: #4ade80; }
+        .log-warn { color: #facc15; }
+        .log-error { color: #f87171; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <span style="font-size: 28px;">📦</span>
+                <div class="header-title">
+                    <h1>Bulk Sync Solved Questions</h1>
+                    <p>Export your solved LeetCode problems directly into your GitHub repository</p>
+                </div>
+            </div>
+            <div id="sessionStatus" class="status-pill pill-yellow">Checking LeetCode...</div>
+        </div>
+
+        <!-- Configuration Card -->
+        <div class="card">
+            <div class="card-title">
+                <span>⚙️ Sync Settings</span>
+                <span style="font-size: 12px; font-weight: normal; color: #64748b;">
+                    <span style="background: #ecfdf5; color: #047857; padding: 3px 8px; border-radius: 6px; font-weight: 600; margin-right: 8px;">✨ 1 Single Commit for Entire Batch</span>
+                    Cloudflare-safe throttled sync
+                </span>
+            </div>
+
+            <div class="config-grid">
+                <div class="form-group">
+                    <label for="limitSelect">Submissions to Fetch</label>
+                    <select id="limitSelect">
+                        <option value="20">Latest 20 Solved Problems</option>
+                        <option value="50">Latest 50 Solved Problems</option>
+                        <option value="100" selected>Latest 100 Solved Problems</option>
+                        <option value="500">All Solved Problems</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="delaySelect">Pacing Delay (Safety Guardrail)</label>
+                    <select id="delaySelect">
+                        <option value="2000" selected>2.0s + Human Jitter (Ultra Safe - Recommended)</option>
+                        <option value="3000">3.0s + Human Jitter (Maximum Caution)</option>
+                        <option value="1500">1.5s + Human Jitter (Standard)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="targetRepoInput">Target GitHub Repo</label>
+                    <input type="text" id="targetRepoInput" value="Ojaswin30/Leetcode" readonly />
+                </div>
+            </div>
+
+            <label class="checkbox-label">
+                <input type="checkbox" id="includeAiReviewCheck" />
+                <span>Include AI Code Reviews (Groq) for each problem <em>(Note: Increases time and Groq token usage)</em></span>
+            </label>
+
+            <div class="btn-row" style="margin-top: 16px;">
+                <button id="fetchSubmissionsBtn" class="btn btn-primary">
+                    <span>🔍</span> Fetch Solved Problems from LeetCode
+                </button>
+            </div>
+        </div>
+
+        <!-- Problem Selection Card (Hidden initially) -->
+        <div id="problemCard" class="card" style="display: none;">
+            <div class="card-title">
+                <span id="problemCountLabel">Discovered Problems</span>
+                <div class="btn-row">
+                    <button id="selectNewOnlyBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; background: #e0e7ff; color: #4338ca; border-color: #c7d2fe;">✨ Select New Only</button>
+                    <button id="selectAllBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Select All</button>
+                    <button id="deselectAllBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Deselect All</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"><input type="checkbox" id="masterCheck" checked /></th>
+                            <th style="width: 80px;"># ID</th>
+                            <th>Problem Title</th>
+                            <th style="width: 100px;">Difficulty</th>
+                            <th>Languages</th>
+                            <th style="width: 140px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="problemsTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-row" style="margin-top: 18px;">
+                <button id="startSyncBtn" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">
+                    <span>🚀</span> Start Bulk Upload (1 Single Commit)
+                </button>
+                <button id="cancelSyncBtn" class="btn btn-danger" style="display: none;">
+                    <span>⏹️</span> Stop Sync
+                </button>
+            </div>
+
+            <!-- Progress Box -->
+            <div id="progressBox" class="progress-box">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
+                    <span id="progressText">Syncing...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progressBarFill" class="progress-bar-fill"></div>
+                </div>
+                <div id="progressSubtext" style="font-size: 12px; color: #64748b;">Processing submissions...</div>
+            </div>
+
+            <!-- Live Log Console -->
+            <div id="logConsole" class="log-box"></div>
+        </div>
+    </div>
+
+    <script src="bulk-sync.js"></script>
+</body>
+</html>

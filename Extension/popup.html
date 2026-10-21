@@ -1,140 +1,344 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>LeetCode Solution Uploader</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                width: 350px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                padding: 20px;
-                min-height: 200px;
-            }
-            .container {
-                background: white;
-                border-radius: 10px;
-                padding: 20px;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            }
-            h2 {
-                color: #333;
-                margin-bottom: 15px;
-                font-size: 18px;
-            }
-            .form-group {
-                margin-bottom: 15px;
-            }
-            label {
-                display: block;
-                margin-bottom: 8px;
-                color: #555;
-                font-weight: 500;
-                font-size: 14px;
-            }
-            select {
-                width: 100%;
-                padding: 10px;
-                border: 2px solid #e0e0e0;
-                border-radius: 6px;
-                font-size: 14px;
-                cursor: pointer;
-                transition: border-color 0.3s;
-            }
-            select:hover {
-                border-color: #667eea;
-            }
-            select:focus {
-                outline: none;
-                border-color: #667eea;
-            }
-            button {
-                width: 100%;
-                padding: 12px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                font-size: 15px;
-                cursor: pointer;
-                transition: transform 0.2s, box-shadow 0.2s;
-            }
-            button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-            }
-            button:active {
-                transform: translateY(0);
-            }
-            button:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-            #status {
-                margin-top: 15px;
-                padding: 12px;
-                border-radius: 6px;
-                font-size: 13px;
-                display: none;
-            }
-            #status.loading {
-                background-color: #e3f2fd;
-                color: #1976d2;
-                display: block;
-            }
-            #status.success {
-                background-color: #e8f5e9;
-                color: #388e3c;
-                display: block;
-            }
-            #status.error {
-                background-color: #ffebee;
-                color: #c62828;
-                display: block;
-            }
-            .spinner {
-                display: inline-block;
-                width: 12px;
-                height: 12px;
-                border: 2px solid currentColor;
-                border-right-color: transparent;
-                border-radius: 50%;
-                animation: spin 0.6s linear infinite;
-                margin-right: 8px;
-                vertical-align: middle;
-            }
-            @keyframes spin {
-                to { transform: rotate(360deg); }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>LeetCode Solution Uploader</h2>
-            
-            <div class="form-group">
-                <label for="folderSelect">Select Difficulty Level</label>
-                <select id="folderSelect">
-                    <option value="Easy">Easy</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
-                </select>
-            </div>
-            
-            <button id="uploadBtn">Upload & Review with ChatGPT</button>
-            
-            <div id="status"></div>
-            
-            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0; font-size: 12px; text-align: center;">
-                <a href="settings.html" style="color: #667eea; text-decoration: none; cursor: pointer;"> Extension Settings</a>
+<head>
+    <meta charset="utf-8">
+    <title>LeetCode Solution Uploader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            width: 360px;
+            background: #ffffff;
+            color: #1f2937;
+            padding: 16px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .title-group h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .settings-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            color: #6b7280;
+        }
+        .settings-btn:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+        .card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+        .setup-card {
+            background: #eef2ff;
+            border: 1.5px solid #818cf8;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        .setup-card h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3730a3;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .setup-card p {
+            font-size: 12px;
+            color: #4b5563;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .setup-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #c7d2fe;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 8px;
+            background: white;
+            font-family: inherit;
+        }
+        .setup-input.mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        }
+        .setup-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+        .btn-sm {
+            width: 100%;
+            padding: 8px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-sm:hover {
+            background: #4338ca;
+        }
+        .problem-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            word-break: break-word;
+        }
+        .path-preview {
+            font-size: 11px;
+            color: #6b7280;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            margin-top: 5px;
+            word-break: break-all;
+            background: #ffffff;
+            padding: 4px 6px;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+        }
+        .meta-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-easy {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        .badge-medium {
+            background: #fef9c3;
+            color: #a16207;
+        }
+        .badge-hard {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .badge-neutral {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+        }
+        select:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: #374151;
+            cursor: pointer;
+        }
+        .checkbox-group input {
+            cursor: pointer;
+            accent-color: #4f46e5;
+            width: 15px;
+            height: 15px;
+        }
+        button.action-btn {
+            width: 100%;
+            padding: 10px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        button.action-btn:hover {
+            background: #4338ca;
+        }
+        button.action-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            display: none;
+            word-break: break-word;
+        }
+        #status.loading {
+            background-color: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            display: block;
+        }
+        #status.success {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            display: block;
+        }
+        #status.error {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            display: block;
+        }
+        #status a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .not-leetcode {
+            text-align: center;
+            padding: 16px 8px;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title-group">
+            <span>📝</span>
+            <h3>LeetCode Uploader</h3>
+        </div>
+        <button id="openSettingsBtn" class="settings-btn" title="Open Settings">⚙️</button>
+    </div>
+
+    <!-- Quick Setup Card (Visible only when GitHub token is not configured) -->
+    <div id="quickSetupCard" class="setup-card" style="display: none;">
+        <h4>🔑 GitHub Setup Required</h4>
+        <p>Please enter your GitHub Personal Access Token to upload solutions:</p>
+        <input type="password" id="quickTokenInput" placeholder="ghp_xxxxxxxxxxxx" class="setup-input mono" />
+        <input type="text" id="quickRepoInput" placeholder="username/repository" value="Ojaswin30/Leetcode" class="setup-input" />
+        <button id="quickSaveBtn" class="btn-sm">Save & Connect</button>
+    </div>
+
+    <!-- Main Content when on LeetCode -->
+    <div id="leetcodeContent">
+        <div class="card">
+            <div id="problemTitle" class="problem-title">Extracting problem info...</div>
+            <div id="pathPreview" class="path-preview">📁 Target: Detecting...</div>
+            <div class="meta-badges">
+                <span id="diffBadge" class="badge badge-neutral">Detecting...</span>
+                <span id="langBadge" class="badge badge-neutral">Language...</span>
+                <span id="codeBadge" class="badge badge-neutral">Code...</span>
             </div>
         </div>
 
-        <script src="popup.js"></script>
-    </body>
+        <div class="form-group">
+            <label for="folderSelect">Destination Folder (Difficulty)</label>
+            <select id="folderSelect">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
+        </div>
+
+        <label class="checkbox-group">
+            <input type="checkbox" id="includeReviewCheck" checked />
+            <span id="reviewLabel">Include AI Code Review (Groq)</span>
+        </label>
+
+        <button id="uploadBtn" class="action-btn" disabled>
+            <span>🚀</span>
+            <span id="uploadBtnText">Upload to GitHub</span>
+        </button>
+
+        <button id="openBulkSyncBtn" class="action-btn" style="margin-top: 8px; background: #475569;">
+            <span>📦</span>
+            <span>Bulk Sync Solved Questions</span>
+        </button>
+
+        <div id="status"></div>
+    </div>
+
+    <!-- Notice when NOT on LeetCode -->
+    <div id="notLeetcodeNotice" class="not-leetcode" style="display: none;">
+        <div style="font-size: 24px; margin-bottom: 6px;">💡</div>
+        <strong>Quick Navigation</strong>
+        <p style="margin-top: 6px; margin-bottom: 12px;">Open any problem on LeetCode, or sync multiple past problems at once below:</p>
+        <button id="openBulkSyncNoticeBtn" class="action-btn" style="background: #475569;">
+            <span>📦</span>
+            <span>Open Bulk Sync Tool</span>
+        </button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
 </html>

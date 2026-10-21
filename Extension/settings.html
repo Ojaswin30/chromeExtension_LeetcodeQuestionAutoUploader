@@ -1,133 +1,321 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Settings - LeetCode Solution Uploader</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                width: 500px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                padding: 20px;
-                min-height: 400px;
-            }
-            .container {
-                background: white;
-                border-radius: 10px;
-                padding: 25px;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            }
-            h2 {
-                color: #333;
-                margin-bottom: 20px;
-                font-size: 22px;
-            }
-            .form-group {
-                margin-bottom: 20px;
-            }
-            label {
-                display: block;
-                margin-bottom: 8px;
-                color: #555;
-                font-weight: 600;
-                font-size: 14px;
-            }
-            input {
-                width: 100%;
-                padding: 12px;
-                border: 2px solid #e0e0e0;
-                border-radius: 6px;
-                font-size: 14px;
-                transition: border-color 0.3s;
-                font-family: monospace;
-            }
-            input:focus {
-                outline: none;
-                border-color: #667eea;
-            }
-            .help-text {
-                font-size: 12px;
-                color: #888;
-                margin-top: 6px;
-                line-height: 1.4;
-            }
-            button {
-                width: 100%;
-                padding: 12px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                font-size: 15px;
-                cursor: pointer;
-                transition: transform 0.2s, box-shadow 0.2s;
-            }
-            button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-            }
-            #status {
-                margin-top: 15px;
-                padding: 12px;
-                border-radius: 6px;
-                font-size: 13px;
-                display: none;
-            }
-            #status.success {
-                background-color: #e8f5e9;
-                color: #388e3c;
-                display: block;
-            }
-            #status.error {
-                background-color: #ffebee;
-                color: #c62828;
-                display: block;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>Extension Settings</h2>
-            
-            <div class="form-group">
-                <label>📌 Ollama Setup</label>
-                <div class="help-text">
-                    ⭐ No API key needed! Code reviews run locally on your machine.<br>
-                    <strong>Setup:</strong><br>
-                    1. Download from: <a href="https://ollama.ai" target="_blank">ollama.ai</a><br>
-                    2. Run in PowerShell: <code>ollama pull mistral</code><br>
-                    3. Start Ollama: <code>ollama serve</code><br>
-                    Keep Ollama running in background while using extension.
-                </div>
+<head>
+    <meta charset="utf-8">
+    <title>Settings - LeetCode Solution Uploader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 560px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+        .header-icon {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
+            margin-top: 22px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #4b5563;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        input[type="password"], input.mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 13px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+        .help-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+        .help-text a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+        .badge-recommended {
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        button {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+            flex: 1;
+        }
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        .inline-status {
+            margin-top: 10px;
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+            line-height: 1.4;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .inline-status.success {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            display: block;
+        }
+        .inline-status.error {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            display: block;
+        }
+        .inline-status.info {
+            background-color: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            display: block;
+        }
+        .provider-section {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 14px;
+            background: #fafafa;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">⚙️</div>
+            <div>
+                <h2>Extension Settings</h2>
+                <div class="subtitle">Configure your GitHub repo, folder structure, and AI reviewer</div>
             </div>
-
-            <div class="form-group">
-                <label for="githubToken">GitHub Personal Access Token</label>
-                <input type="password" id="githubToken" placeholder="ghp_..." />
-                <div class="help-text">
-                    Create token at: <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a><br>
-                    Requires: repo (full control of private repositories)
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="githubRepo">GitHub Repository</label>
-                <input type="text" id="githubRepo" placeholder="username/repo-name" value="Ojaswin30/Leetcode" />
-                <div class="help-text">
-                    Format: username/repository
-                </div>
-            </div>
-            
-            <button id="saveBtn">Save Settings</button>
-            
-            <div id="status"></div>
         </div>
 
-        <script src="settings.js"></script>
-    </body>
+        <!-- GitHub Configuration -->
+        <div class="section-title">🐙 GitHub Configuration</div>
+
+        <div class="form-group">
+            <label for="githubToken">Personal Access Token (classic or fine-grained)</label>
+            <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="mono" />
+            <div class="help-text">
+                Generate at <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a> with <strong>repo</strong> scope (or "Contents: Read & Write").
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="githubRepo">GitHub Repository</label>
+            <input type="text" id="githubRepo" placeholder="username/repository-name" value="Ojaswin30/Leetcode" />
+            <div class="help-text">Target repository where solutions will be saved (e.g. <code>Ojaswin30/Leetcode</code>).</div>
+        </div>
+
+        <div class="form-group">
+            <label for="githubBranch">Branch (Optional)</label>
+            <input type="text" id="githubBranch" placeholder="main" />
+            <div class="help-text">Leave blank to use the repository's default branch.</div>
+        </div>
+
+        <div class="btn-row">
+            <button type="button" id="testGithubBtn" class="btn-secondary">Test GitHub Access</button>
+        </div>
+        <!-- Inline GitHub Status Banner -->
+        <div id="githubStatus" class="inline-status"></div>
+
+        <!-- Repository Structure Configuration -->
+        <div class="section-title">📁 Repository Structure & Naming</div>
+
+        <div class="form-group">
+            <label for="pathFormat">Folder & File Pattern</label>
+            <select id="pathFormat">
+                <option value="subfolder_readme" selected>Folder: Easy/0001. Two Sum/cpp_Two Sum.cpp + README.md (Default)</option>
+                <option value="direct_file">File: Easy/cpp_Two Sum.cpp (No subfolder)</option>
+            </select>
+            <div class="help-text">
+                Multi-language support: saves <code>cpp_Two Sum.cpp</code> and <code>python_Two Sum.py</code> side-by-side inside the <code>0001. Two Sum</code> folder with a shared <code>README.md</code>.
+            </div>
+        </div>
+
+        <!-- AI Code Reviewer Configuration -->
+        <div class="section-title">
+            🤖 AI Code Reviewer
+            <span class="badge-recommended">Groq Enabled</span>
+        </div>
+
+        <div class="form-group">
+            <label for="aiProvider">AI Provider</label>
+            <select id="aiProvider">
+                <option value="groq" selected>Groq (Ultra-Fast & Free Llama / GPT-OSS)</option>
+                <option value="openai">OpenAI (ChatGPT - gpt-4o-mini)</option>
+                <option value="ollama">Ollama (Local on your machine)</option>
+                <option value="none">None (Skip Code Review - Instant Upload)</option>
+            </select>
+        </div>
+
+        <!-- Groq Settings -->
+        <div id="groqSettings" class="provider-section">
+            <div class="form-group">
+                <label for="groqKey">Groq API Key</label>
+                <input type="password" id="groqKey" placeholder="gsk_..." class="mono" />
+                <div class="help-text">Get a free key instantly at <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a>.</div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="groqModel">Groq Model</label>
+                <select id="groqModel">
+                    <option value="openai/gpt-oss-120b" selected>openai/gpt-oss-120b (High Reasoning & Fast)</option>
+                    <option value="openai/gpt-oss-20b">openai/gpt-oss-20b (Ultra Fast)</option>
+                    <option value="qwen/qwen3.8-27b">qwen/qwen3.8-27b (Fast Code Reasoning)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- OpenAI Settings -->
+        <div id="openaiSettings" class="provider-section" style="display: none;">
+            <div class="form-group">
+                <label for="openAiKey">OpenAI API Key</label>
+                <input type="password" id="openAiKey" placeholder="sk-..." class="mono" />
+                <div class="help-text">From <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>.</div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="openAiModel">Model</label>
+                <select id="openAiModel">
+                    <option value="gpt-4o-mini" selected>gpt-4o-mini (Fast & economical)</option>
+                    <option value="gpt-4o">gpt-4o (Most capable)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Ollama Settings -->
+        <div id="ollamaSettings" class="provider-section" style="display: none;">
+            <div class="form-group">
+                <label for="ollamaUrl">Ollama URL</label>
+                <input type="text" id="ollamaUrl" value="http://localhost:11434" />
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="ollamaModel">Model</label>
+                <input type="text" id="ollamaModel" value="mistral" placeholder="mistral, llama3, etc." />
+                <div class="help-text">Ensure Ollama is running (<code>ollama serve</code>) with the model pulled.</div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button type="button" id="testAiBtn" class="btn-secondary">Test AI Reviewer</button>
+        </div>
+        <!-- Inline AI Status Banner -->
+        <div id="aiStatus" class="inline-status"></div>
+
+        <!-- Bulk Upload Section -->
+        <div class="section-title">📦 Bulk Upload & Sync</div>
+        <div class="form-group" style="margin-bottom: 24px;">
+            <p style="font-size: 13px; color: #4b5563; margin-bottom: 10px; line-height: 1.4;">
+                Export multiple past solved LeetCode questions at once into your repository with Cloudflare-safe pacing delays.
+            </p>
+            <button type="button" id="openBulkSyncFromSettingsBtn" class="btn-secondary" style="width: auto;">
+                <span>📦</span> Launch Bulk Sync Tool ↗
+            </button>
+        </div>
+
+        <!-- Save Button Section -->
+        <div class="btn-row" style="margin-top: 24px;">
+            <button type="button" id="saveBtn" class="btn-primary">Save Settings</button>
+        </div>
+        <!-- Inline Save Status Banner -->
+        <div id="saveStatus" class="inline-status"></div>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
 </html>
